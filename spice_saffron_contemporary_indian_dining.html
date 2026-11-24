@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spice & Saffron | Contemporary Indian Dining</title>
+    
+    <!-- Google Fonts: Playfair Display for headings, Inter for clean UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for crisp UI & Food Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom Tailwind Configuration for Indian Fine-Dining Palette -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        cream: {
+                            50: '#FDFBF7',
+                            100: '#F8F3E9',
+                            200: '#EFE5D1',
+                        },
+                        saffron: {
+                            400: '#F59E0B',
+                            500: '#D97706',
+                            600: '#B45309',
+                        },
+                        terracotta: {
+                            500: '#C2410C',
+                            600: '#9A3412',
+                            700: '#7C2D12',
+                        },
+                        charcoal: {
+                            800: '#27272A',
+                            900: '#18181B',
+                            950: '#121214',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom subtle scrollbar & animations */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F8F3E9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D97706;
+            border-radius: 9999px;
+        }
+        .hero-overlay {
+            background: linear-gradient(to right, rgba(18, 18, 20, 0.92) 0%, rgba(18, 18, 20, 0.72) 55%, rgba(18, 18, 20, 0.35) 100%);
+        }
+        @media (max-width: 768px) {
+            .hero-overlay {
+                background: linear-gradient(to bottom, rgba(18, 18, 20, 0.85) 0%, rgba(18, 18, 20, 0.78) 100%);
+            }
+        }
+        .fade-in {
+            animation: fadeIn 0.35s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-cream-50 text-charcoal-900 font-sans antialiased selection:bg-saffron-500 selection:text-white">
+
+    <!-- ==================== 1. STICKY NAVIGATION BAR ==================== -->
+    <header class="sticky top-0 z-40 bg-charcoal-950/95 backdrop-blur-md text-cream-50 border-b border-white/10 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <a href="#home" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-saffron-400 to-terracotta-600 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-fire-flame-curved text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="font-serif text-2xl font-bold tracking-wide text-cream-50 block leading-none">Spice <span class="text-saffron-400">&amp;</span> Saffron</span>
+                        <span class="text-[11px] uppercase tracking-[0.2em] text-cream-200/70">Contemporary Indian</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#home" class="text-cream-100 hover:text-saffron-400 transition-colors">Home</a>
+                    <a href="#menu" class="text-cream-100 hover:text-saffron-400 transition-colors">Menu</a>
+                    <a href="#offers" class="text-cream-100 hover:text-saffron-400 transition-colors">Special Offers</a>
+                    <a href="#reviews" class="text-cream-100 hover:text-saffron-400 transition-colors">Reviews</a>
+                    <a href="#contact" class="text-cream-100 hover:text-saffron-400 transition-colors">Contact</a>
+                </nav>
+
+                <!-- Action Buttons (Order Tray + Book a Table + Mobile Menu Toggle) -->
+                <div class="flex items-center gap-3">
+                    <!-- Order Cart Trigger -->
+                    <button onclick="toggleCartDrawer()" aria-label="Open Order Tray" class="relative p-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-cream-50 transition-colors">
+                        <i class="fa-solid fa-bag-shopping text-lg"></i>
+                        <span id="cart-badge" class="hidden absolute -top-1.5 -right-1.5 bg-saffron-500 text-charcoal-950 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow">0</span>
+                    </button>
+
+                    <!-- Book a Table CTA -->
+                    <button onclick="openBookingModal()" class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-saffron-500 to-terracotta-500 hover:from-saffron-400 hover:to-terracotta-600 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-md hover:shadow-saffron-500/25 transition-all active:scale-95">
+                        <i class="fa-regular fa-calendar-check"></i>
+                        <span>Book a Table</span>
+                    </button>
+
+                    <!-- Mobile Hamburger Button -->
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Menu" class="md:hidden p-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-cream-50">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden bg-charcoal-900 border-t border-white/10 px-4 pt-3 pb-5 space-y-2">
+            <a href="#home" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-lg text-cream-100 hover:bg-white/10">Home</a>
+            <a href="#menu" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-lg text-cream-100 hover:bg-white/10">Menu</a>
+            <a href="#offers" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-lg text-cream-100 hover:bg-white/10">Special Offers</a>
+            <a href="#reviews" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-lg text-cream-100 hover:bg-white/10">Reviews</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block px-3 py-2.5 rounded-lg text-cream-100 hover:bg-white/10">Contact</a>
+            <button onclick="toggleMobileMenu(); openBookingModal();" class="w-full mt-2 flex items-center justify-center gap-2 bg-saffron-500 text-charcoal-950 font-bold py-3 rounded-xl">
+                <i class="fa-regular fa-calendar-check"></i>
+                <span>Book a Table</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ==================== 2. HERO SECTION ==================== -->
+    <section id="home" class="relative min-h-[85vh] flex items-center overflow-hidden bg-charcoal-950">
+        <!-- Appetizing Background Image with Fallback -->
+        <img 
+            src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=1920&q=80" 
+            onerror="this.src='https://placehold.co/1920x1080/18181B/D97706?text=Spice+%26+Saffron+Feast'"
+            alt="Royal Indian Cuisine Spread" 
+            class="absolute inset-0 w-full h-full object-cover object-center scale-105"
+        >
+        <div class="hero-overlay absolute inset-0"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
+            <div class="max-w-2xl space-y-6">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-saffron-500/20 border border-saffron-400/40 text-saffron-400 text-xs sm:text-sm font-medium tracking-wide">
+                    <i class="fa-solid fa-award"></i>
+                    <span>Authentic Heritage Spices • Modern Culinary Art</span>
+                </div>
+
+                <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-cream-50 leading-tight">
+                    A Symphony of <span class="text-saffron-400 italic">Royal Spices</span> &amp; Contemporary Flavors
+                </h1>
+
+                <p class="text-cream-200/90 text-base sm:text-lg leading-relaxed max-w-xl">
+                    Experience handcrafted charcoal kebabs, slow-simmered heirloom curries, and artisanal saffron desserts crafted fresh every day in the heart of the city.
+                </p>
+
+                <div class="flex flex-wrap items-center gap-4 pt-2">
+                    <a href="#menu" class="inline-flex items-center gap-2.5 bg-saffron-500 hover:bg-saffron-400 text-charcoal-950 font-bold px-7 py-3.5 rounded-xl shadow-lg shadow-saffron-500/20 transition-all active:scale-95">
+                        <span>Explore Menu</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <button onclick="openBookingModal()" class="inline-flex items-center gap-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md text-cream-50 border border-white/25 font-semibold px-7 py-3.5 rounded-xl transition-all active:scale-95">
+                        <i class="fa-regular fa-calendar"></i>
+                        <span>Reserve a Table</span>
+                    </button>
+                </div>
+
+                <!-- Quick Highlights -->
+                <div class="grid grid-cols-3 gap-4 pt-8 border-t border-white/15 max-w-lg text-cream-100">
+                    <div>
+                        <p class="font-serif text-2xl font-bold text-saffron-400">4.8 ★</p>
+                        <p class="text-xs text-cream-200/70">1,200+ Diner Reviews</p>
+                    </div>
+                    <div>
+                        <p class="font-serif text-2xl font-bold text-saffron-400">100%</p>
+                        <p class="text-xs text-cream-200/70">Fresh Stone-Ground Spices</p>
+                    </div>
+                    <div>
+                        <p class="font-serif text-2xl font-bold text-saffron-400">12 PM</p>
+                        <p class="text-xs text-cream-200/70">Open Daily Till 11:30 PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 3. INTERACTIVE FOOD MENU ==================== -->
+    <section id="menu" class="py-20 bg-cream-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-terracotta-600 font-semibold text-sm uppercase tracking-widest">Curated Culinary Menu</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-charcoal-900 mt-2">Signature Dishes &amp; Specialties</h2>
+                <p class="text-charcoal-800/75 mt-3 text-sm sm:text-base">Filter by course, search your favorite flavors, or add items directly to your dining tray.</p>
+            </div>
+
+            <!-- Controls Bar: Category Filter Tabs + Search Input -->
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-4 mb-10 bg-white p-4 rounded-2xl shadow-sm border border-cream-200">
+                <!-- Category Tabs -->
+                <div id="category-tabs" class="flex flex-wrap items-center justify-center gap-2 w-full lg:w-auto">
+                    <button data-category="All" onclick="filterMenu('All')" class="menu-tab active px-4 py-2 rounded-xl text-sm font-semibold bg-charcoal-900 text-cream-50 transition-all">All</button>
+                    <button data-category="Starters" onclick="filterMenu('Starters')" class="menu-tab px-4 py-2 rounded-xl text-sm font-semibold text-charcoal-800 hover:bg-cream-100 transition-all">Starters</button>
+                    <button data-category="Main Course" onclick="filterMenu('Main Course')" class="menu-tab px-4 py-2 rounded-xl text-sm font-semibold text-charcoal-800 hover:bg-cream-100 transition-all">Main Course</button>
+                    <button data-category="Desserts" onclick="filterMenu('Desserts')" onclick="filterMenu('Desserts')" class="menu-tab px-4 py-2 rounded-xl text-sm font-semibold text-charcoal-800 hover:bg-cream-100 transition-all">Desserts</button>
+                    <button data-category="Beverages" onclick="filterMenu('Beverages')" class="menu-tab px-4 py-2 rounded-xl text-sm font-semibold text-charcoal-800 hover:bg-cream-100 transition-all">Beverages</button>
+                </div>
+
+                <!-- Search Bar & Veg Toggle -->
+                <div class="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+                    <label class="inline-flex items-center gap-2 cursor-pointer text-sm font-medium text-charcoal-800 bg-cream-100 px-3.5 py-2 rounded-xl select-none">
+                        <input type="checkbox" id="veg-only-toggle" onchange="applyMenuFilters()" class="accent-green-600 w-4 h-4 rounded">
+                        <span class="w-3.5 h-3.5 border-2 border-green-600 flex items-center justify-center rounded-sm">
+                            <span class="w-1.5 h-1.5 bg-green-600 rounded-full"></span>
+                        </span>
+                        <span>Pure Veg Only</span>
+                    </label>
+
+                    <div class="relative w-full sm:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-charcoal-800/40 text-sm"></i>
+                        <input 
+                            type="text" 
+                            id="menu-search" 
+                            oninput="applyMenuFilters()" 
+                            placeholder="Search biryani, paneer, chai..." 
+                            class="w-full pl-10 pr-4 py-2 rounded-xl bg-cream-50 border border-cream-200 text-sm focus:outline-none focus:border-saffron-500"
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu Cards Grid (Populated via JavaScript) -->
+            <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div>
+
+            <!-- Empty Search State -->
+            <div id="menu-empty" class="hidden text-center py-14 bg-white rounded-2xl border border-cream-200">
+                <i class="fa-solid fa-bowl-rice text-4xl text-saffron-500 mb-3"></i>
+                <h3 class="font-serif text-xl font-bold text-charcoal-900">No matching dishes found</h3>
+                <p class="text-sm text-charcoal-800/70 mt-1">Try clearing your search filter or switching categories.</p>
+                <button onclick="resetMenuFilters()" class="mt-4 px-5 py-2 bg-charcoal-900 text-cream-50 text-sm font-semibold rounded-xl">Reset Filters</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 4. SPECIAL OFFERS ==================== -->
+    <section id="offers" class="py-20 bg-charcoal-950 text-cream-50 relative overflow-hidden">
+        <!-- Decorative Subtle Glow -->
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-saffron-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-terracotta-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <div>
+                    <span class="text-saffron-400 font-semibold text-sm uppercase tracking-widest">Limited Time Privileges</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-cream-50 mt-2">Special Offers &amp; Dining Combos</h2>
+                </div>
+                <p class="text-cream-200/75 text-sm max-w-md">Tap any promo code below to copy it instantly and apply it at checkout or show at the restaurant.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Offer 1 -->
+                <div class="bg-charcoal-900 border border-white/10 rounded-2xl p-6 flex flex-col justify-between hover:border-saffron-500/50 transition-all group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-saffron-500/20 text-saffron-400">WEEKEND SPECIAL</span>
+                            <i class="fa-solid fa-crown text-saffron-400 text-xl"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-cream-50 mb-2">Royal Weekend Thali Feast</h3>
+                        <p class="text-cream-200/75 text-sm leading-relaxed mb-6">Enjoy 20% off on our 14-item Maharaja Veg &amp; Non-Veg Thalis every Saturday &amp; Sunday lunch (12 PM – 4 PM).</p>
+                    </div>
+                    <div class="pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+                        <div>
+                            <span class="text-[11px] uppercase tracking-wider text-cream-200/50 block">Promo Code</span>
+                            <code class="text-saffron-400 font-bold text-base tracking-wider">ROYAL20</code>
+                        </div>
+                        <button onclick="copyPromoCode('ROYAL20', this)" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-saffron-500 hover:text-charcoal-950 text-xs font-bold transition-colors flex items-center gap-2">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copy Code</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Offer 2 -->
+                <div class="bg-gradient-to-br from-terracotta-700 to-charcoal-900 border border-saffron-400/30 rounded-2xl p-6 flex flex-col justify-between shadow-xl">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/15 text-cream-50">CAMPUS FAVORITE</span>
+                            <i class="fa-solid fa-graduation-cap text-saffron-400 text-xl"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-cream-50 mb-2">Student Biryani &amp; Chai Combo</h3>
+                        <p class="text-cream-100/85 text-sm leading-relaxed mb-6">Flat ₹150 OFF on orders above ₹599 for college students. Includes a complimentary Masala Kulhad Chai!</p>
+                    </div>
+                    <div class="pt-4 border-t border-white/15 flex items-center justify-between gap-3">
+                        <div>
+                            <span class="text-[11px] uppercase tracking-wider text-cream-200/70 block">Promo Code</span>
+                            <code class="text-saffron-400 font-bold text-base tracking-wider">CAMPUS150</code>
+                        </div>
+                        <button onclick="copyPromoCode('CAMPUS150', this)" class="px-4 py-2 rounded-xl bg-saffron-500 hover:bg-saffron-400 text-charcoal-950 text-xs font-bold transition-colors flex items-center gap-2">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copy Code</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Offer 3 -->
+                <div class="bg-charcoal-900 border border-white/10 rounded-2xl p-6 flex flex-col justify-between hover:border-saffron-500/50 transition-all">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400">HAPPY HOURS</span>
+                            <i class="fa-solid fa-martini-glass-citrus text-saffron-400 text-xl"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-cream-50 mb-2">1+1 Artisanal Mocktails</h3>
+                        <p class="text-cream-200/75 text-sm leading-relaxed mb-6">Buy one Jamun Kala Khatta or Mango Saffron Cooler and get a second one on the house (Mon–Fri, 4 PM – 7 PM).</p>
+                    </div>
+                    <div class="pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+                        <div>
+                            <span class="text-[11px] uppercase tracking-wider text-cream-200/50 block">Promo Code</span>
+                            <code class="text-saffron-400 font-bold text-base tracking-wider">SIP1PLUS1</code>
+                        </div>
+                        <button onclick="copyPromoCode('SIP1PLUS1', this)" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-saffron-500 hover:text-charcoal-950 text-xs font-bold transition-colors flex items-center gap-2">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copy Code</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 5. CUSTOMER REVIEWS ==================== -->
+    <section id="reviews" class="py-20 bg-cream-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-terracotta-600 font-semibold text-sm uppercase tracking-widest">Guest Experiences</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-charcoal-900 mt-2">Loved by Food Enthusiasts</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Left Column: Rating Summary + Write a Review Form -->
+                <div class="lg:col-span-5 space-y-6">
+                    <!-- Rating Summary Card -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-cream-200">
+                        <div class="flex items-center gap-5">
+                            <div class="text-center pr-5 border-r border-cream-200">
+                                <span id="avg-rating-display" class="font-serif text-5xl font-bold text-charcoal-900">4.8</span>
+                                <div class="text-saffron-500 text-sm mt-1">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star-half-stroke"></i>
+                                </div>
+                                <p id="total-reviews-count" class="text-xs text-charcoal-800/60 mt-1">1,248 reviews</p>
+                            </div>
+                            <div class="flex-1 space-y-2 text-xs">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 font-semibold">5★</span>
+                                    <div class="flex-1 h-2 bg-cream-200 rounded-full overflow-hidden"><div class="bg-saffron-500 h-full w-[82%]"></div></div>
+                                    <span class="w-8 text-right text-charcoal-800/70">82%</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 font-semibold">4★</span>
+                                    <div class="flex-1 h-2 bg-cream-200 rounded-full overflow-hidden"><div class="bg-saffron-500 h-full w-[14%]"></div></div>
+                                    <span class="w-8 text-right text-charcoal-800/70">14%</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 font-semibold">3★</span>
+                                    <div class="flex-1 h-2 bg-cream-200 rounded-full overflow-hidden"><div class="bg-saffron-500 h-full w-[3%]"></div></div>
+                                    <span class="w-8 text-right text-charcoal-800/70">3%</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 font-semibold">2★</span>
+                                    <div class="flex-1 h-2 bg-cream-200 rounded-full overflow-hidden"><div class="bg-saffron-500 h-full w-[1%]"></div></div>
+                                    <span class="w-8 text-right text-charcoal-800/70">1%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Write a Review Form -->
+                    <form id="review-form" onsubmit="handleReviewSubmit(event)" class="bg-white p-6 rounded-2xl shadow-sm border border-cream-200 space-y-4">
+                        <h3 class="font-serif text-xl font-bold text-charcoal-900">Share Your Experience</h3>
+                        
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800/70 mb-1">Your Name</label>
+                            <input type="text" id="reviewer-name" required placeholder="e.g., Ananya Sharma" class="w-full px-4 py-2.5 rounded-xl bg-cream-50 border border-cream-200 text-sm focus:outline-none focus:border-saffron-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800/70 mb-1">Rating</label>
+                            <div id="star-selector" class="flex items-center gap-2 text-2xl text-saffron-500 cursor-pointer">
+                                <i data-star="1" onclick="setReviewRating(1)" class="fa-solid fa-star hover:scale-110 transition-transform"></i>
+                                <i data-star="2" onclick="setReviewRating(2)" class="fa-solid fa-star hover:scale-110 transition-transform"></i>
+                                <i data-star="3" onclick="setReviewRating(3)" class="fa-solid fa-star hover:scale-110 transition-transform"></i>
+                                <i data-star="4" onclick="setReviewRating(4)" class="fa-solid fa-star hover:scale-110 transition-transform"></i>
+                                <i data-star="5" onclick="setReviewRating(5)" class="fa-solid fa-star hover:scale-110 transition-transform"></i>
+                            </div>
+                            <input type="hidden" id="reviewer-rating" value="5">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800/70 mb-1">Your Review</label>
+                            <textarea id="reviewer-comment" rows="3" required placeholder="Tell us about your favorite dish or ambiance..." class="w-full px-4 py-2.5 rounded-xl bg-cream-50 border border-cream-200 text-sm focus:outline-none focus:border-saffron-500"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-charcoal-900 hover:bg-terracotta-600 text-cream-50 font-semibold py-3 rounded-xl transition-colors text-sm">
+                            Post Review
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Right Column: Dynamic Reviews Feed -->
+                <div id="reviews-list" class="lg:col-span-7 space-y-4">
+                    <!-- Rendered dynamically via JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 6. CONTACT & LOCATION INFORMATION ==================== -->
+    <section id="contact" class="py-20 bg-cream-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-terracotta-600 font-semibold text-sm uppercase tracking-widest">Visit or Reach Out</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-charcoal-900 mt-2">Location &amp; Inquiries</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <!-- Left: Details + Interactive Styled Map Card -->
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-white p-5 rounded-2xl border border-cream-200 shadow-sm">
+                            <div class="w-10 h-10 rounded-xl bg-saffron-500/15 text-terracotta-600 flex items-center justify-center mb-3">
+                                <i class="fa-solid fa-location-dot text-lg"></i>
+                            </div>
+                            <h3 class="font-bold text-charcoal-900 text-base">Restaurant Address</h3>
+                            <p class="text-sm text-charcoal-800/75 mt-1">42 Heritage Courtyard, Jubilee Hills Road No. 36, Hyderabad, TS 500033</p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-cream-200 shadow-sm">
+                            <div class="w-10 h-10 rounded-xl bg-saffron-500/15 text-terracotta-600 flex items-center justify-center mb-3">
+                                <i class="fa-regular fa-clock text-lg"></i>
+                            </div>
+                            <h3 class="font-bold text-charcoal-900 text-base">Opening Hours</h3>
+                            <p class="text-sm text-charcoal-800/75 mt-1">Mon – Sun: 12:00 PM – 11:30 PM<br><span class="text-xs text-terracotta-600 font-medium">Valet Parking Available</span></p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-cream-200 shadow-sm">
+                            <div class="w-10 h-10 rounded-xl bg-saffron-500/15 text-terracotta-600 flex items-center justify-center mb-3">
+                                <i class="fa-solid fa-phone text-lg"></i>
+                            </div>
+                            <h3 class="font-bold text-charcoal-900 text-base">Reservations Desk</h3>
+                            <p class="text-sm text-charcoal-800/75 mt-1">+91 98765 43210<br>+91 40 2355 8899</p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-cream-200 shadow-sm">
+                            <div class="w-10 h-10 rounded-xl bg-saffron-500/15 text-terracotta-600 flex items-center justify-center mb-3">
+                                <i class="fa-regular fa-envelope text-lg"></i>
+                            </div>
+                            <h3 class="font-bold text-charcoal-900 text-base">Email &amp; Events</h3>
+                            <p class="text-sm text-charcoal-800/75 mt-1">namaste@spiceandsaffron.in<br>events@spiceandsaffron.in</p>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Styled Map Visual -->
+                    <div class="relative rounded-2xl overflow-hidden border border-cream-200 shadow-sm h-64 bg-cream-200 group">
+                        <!-- Stylized Architectural SVG Map Canvas -->
+                        <svg viewBox="0 0 600 260" class="w-full h-full object-cover bg-[#EFE8D8]">
+                            <!-- Roads & Blocks -->
+                            <rect x="0" y="0" width="600" height="260" fill="#EFE8D8"/>
+                            <path d="M-20 80 L620 140" stroke="#FFFFFF" stroke-width="18"/>
+                            <path d="M180 -10 L240 270" stroke="#FFFFFF" stroke-width="16"/>
+                            <path d="M430 -10 L390 270" stroke="#F8F3E9" stroke-width="12"/>
+                            <path d="M-20 200 L620 185" stroke="#F8F3E9" stroke-width="10"/>
+                            <!-- Green Park Area -->
+                            <rect x="40" y="110" width="120" height="65" rx="12" fill="#D4E4C8"/>
+                            <text x="100" y="147" font-size="10" fill="#4D6B3C" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600">Botanical Park</text>
+                            <!-- Road Label -->
+                            <text x="310" y="115" font-size="11" fill="#78716C" font-family="Inter, sans-serif" font-weight="600" transform="rotate(5 310 115)">Jubilee Hills Road No. 36</text>
+                        </svg>
+
+                        <!-- Interactive Pin Marker Overlay -->
+                        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                            <div class="bg-charcoal-950 text-cream-50 px-4 py-2 rounded-xl shadow-xl border border-saffron-400/50 flex items-center gap-2.5 animate-bounce">
+                                <span class="w-2.5 h-2.5 rounded-full bg-saffron-400"></span>
+                                <span class="text-xs font-bold">Spice &amp; Saffron Flagship</span>
+                            </div>
+                            <div class="w-3 h-3 bg-charcoal-950 rotate-45 -mt-1.5"></div>
+                        </div>
+
+                        <a href="https://maps.google.com/?q=Jubilee+Hills+Hyderabad" target="_blank" rel="noopener noreferrer" class="absolute bottom-3 right-3 bg-white/95 hover:bg-saffron-500 hover:text-charcoal-950 text-charcoal-900 text-xs font-bold px-3.5 py-2 rounded-xl shadow transition-colors flex items-center gap-1.5">
+                            <i class="fa-solid fa-diamond-turn-right"></i>
+                            <span>Get Directions</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Working Contact & Catering Inquiry Form -->
+                <div class="bg-white p-8 rounded-2xl border border-cream-200 shadow-sm">
+                    <h3 class="font-serif text-2xl font-bold text-charcoal-900 mb-2">Send Us a Message</h3>
+                    <p class="text-sm text-charcoal-800/70 mb-6">Planning a private celebration, corporate lunch, or have a dietary question? Drop us a note.</p>
+
+                    <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800/70 mb-1">Full Name</label>
+                                <input type="text" required placeholder="Rahul Verma" class="w-full px-4 py-3 rounded-xl bg-cream-50 border border-cream-200 text-sm focus:outline-none focus:border-saffron-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800/70 mb-1">Phone Number</label>
+                                <input type="tel" required placeholder="+91 98765 00000" class="w-full px-4 py-3 rounded-xl bg-cream-50 border border-cream-200 text-sm focus:outline-none focus:border-saffron-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800/70 mb-1">Email Address</label>
+                            <input type="email" required placeholder="rahul@example.com" class="w-full px-4 py-3 rounded-xl bg-cream-50 border border-cream-200 text-sm focus:outline-none focus:border-saffron-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800/70 mb-1">Inquiry Type</label>
+                            <select class="w-full px-4 py-3 rounded-xl bg-cream-50 border border-cream-200 text-sm focus:outline-none focus:border-saffron-500">
+                                <option>General Question</option>
+                                <option>Private Dining / Birthday Party</option>
+                                <option>Corporate Catering</option>
+                                <option>Feedback &amp; Suggestions</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800/70 mb-1">Message</label>
+                            <textarea rows="4" required placeholder="How can our hospitality team assist you?" class="w-full px-4 py-3 rounded-xl bg-cream-50 border border-cream-200 text-sm focus:outline-none focus:border-saffron-500"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-gradient-to-r from-saffron-500 to-terracotta-500 hover:from-saffron-400 hover:to-terracotta-600 text-white font-bold py-3.5 rounded-xl shadow-md transition-all active:scale-95">
+                            Send Inquiry
+                        </button>
+
+                        <!-- Inline Confirmation Feedback Banner -->
+                        <div id="contact-feedback" class="hidden p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+                            <span>Thank you! Your inquiry has been received. Our team will get back to you within 2 hours.</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 7. FOOTER ==================== -->
+    <footer class="bg-charcoal-950 text-cream-200/80 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                <!-- Brand Col -->
+                <div class="md:col-span-2 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-saffron-400 to-terracotta-600 flex items-center justify-center text-white">
+                            <i class="fa-solid fa-fire-flame-curved"></i>
+                        </div>
+                        <span class="font-serif text-2xl font-bold text-cream-50">Spice <span class="text-saffron-400">&amp;</span> Saffron</span>
+                    </div>
+                    <p class="text-sm text-cream-200/65 max-w-md leading-relaxed">
+                        Celebrating India's diverse culinary heritage through contemporary plating, artisanal spices, and warm hospitality.
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <a href="#contact" aria-label="Instagram" class="w-9 h-9 rounded-lg bg-white/10 hover:bg-saffron-500 hover:text-charcoal-950 flex items-center justify-center transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#contact" aria-label="Facebook" class="w-9 h-9 rounded-lg bg-white/10 hover:bg-saffron-500 hover:text-charcoal-950 flex items-center justify-center transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#contact" aria-label="X Twitter" class="w-9 h-9 rounded-lg bg-white/10 hover:bg-saffron-500 hover:text-charcoal-950 flex items-center justify-center transition-colors"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#contact" aria-label="YouTube" class="w-9 h-9 rounded-lg bg-white/10 hover:bg-saffron-500 hover:text-charcoal-950 flex items-center justify-center transition-colors"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-bold text-cream-50 text-sm uppercase tracking-wider mb-4">Quick Links</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#home" class="hover:text-saffron-400 transition-colors">Home</a></li>
+                        <li><a href="#menu" class="hover:text-saffron-400 transition-colors">Our Menu</a></li>
+                        <li><a href="#offers" class="hover:text-saffron-400 transition-colors">Special Offers</a></li>
+                        <li><a href="#reviews" class="hover:text-saffron-400 transition-colors">Customer Reviews</a></li>
+                    </ul>
+                </div>
+
+                <!-- Guest Actions -->
+                <div>
+                    <h4 class="font-bold text-cream-50 text-sm uppercase tracking-wider mb-4">Dine With Us</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><button onclick="openBookingModal()" class="hover:text-saffron-400 transition-colors">Reserve a Table</button></li>
+                        <li><button onclick="toggleCartDrawer()" class="hover:text-saffron-400 transition-colors">View Order Tray</button></li>
+                        <li><a href="#contact" class="hover:text-saffron-400 transition-colors">Private Events</a></li>
+                        <li><a href="#contact" class="hover:text-saffron-400 transition-colors">Find Location</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-cream-200/50">
+                <p>&copy; 2026 Spice &amp; Saffron Hospitality Pvt. Ltd. All rights reserved.</p>
+                <p>Crafted with <i class="fa-solid fa-heart text-terracotta-500"></i> for Contemporary Indian Dining</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== INTERACTIVE MODAL: BOOK A TABLE ==================== -->
+    <div id="booking-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-charcoal-950/80 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-cream-200 relative fade-in">
+            <button onclick="closeBookingModal()" aria-label="Close Modal" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-cream-100 hover:bg-cream-200 flex items-center justify-center text-charcoal-900">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-saffron-500/20 text-terracotta-600 flex items-center justify-center">
+                    <i class="fa-regular fa-calendar-check text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="font-serif text-2xl font-bold text-charcoal-900">Reserve a Table</h3>
+                    <p class="text-xs text-charcoal-800/65">Instant confirmation • No booking fee</p>
+                </div>
+            </div>
+
+            <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800/70 mb-1">Guest Name</label>
+                    <input type="text" id="book-name" required placeholder="Enter your full name" class="w-full px-4 py-2.5 rounded-xl bg-cream-50 border border-cream-200 text-sm focus:outline-none focus:border-saffron-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800/70 mb-1">Date</label>
+                        <input type="date" id="book-date" required class="w-full px-3.5 py-2.5 rounded-xl bg-cream-50 border border-cream-200 text-sm focus:outline-none focus:border-saffron-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800/70 mb-1">Time Slot</label>
+                        <select id="book-time" class="w-full px-3.5 py-2.5 rounded-xl bg-cream-50 border border-cream-200 text-sm focus:outline-none focus:border-saffron-500">
+                            <option>1:00 PM (Lunch)</option>
+                            <option>2:30 PM (Lunch)</option>
+                            <option>7:30 PM (Dinner)</option>
+                            <option selected>8:30 PM (Prime Dinner)</option>
+                            <option>9:30 PM (Late Dinner)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800/70 mb-1">Guests</label>
+                        <select id="book-guests" class="w-full px-3.5 py-2.5 rounded-xl bg-cream-50 border border-cream-200 text-sm focus:outline-none focus:border-saffron-500">
+                            <option>2 Guests</option>
+                            <option selected>4 Guests</option>
+                            <option>6 Guests</option>
+                            <option>8+ Group</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800/70 mb-1">Seating</label>
+                        <select id="book-seating" class="w-full px-3.5 py-2.5 rounded-xl bg-cream-50 border border-cream-200 text-sm focus:outline-none focus:border-saffron-500">
+                            <option>Main Courtyard</option>
+                            <option>Rooftop Lounge</option>
+                            <option>Private Booth</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-saffron-500 to-terracotta-500 hover:from-saffron-400 hover:to-terracotta-600 text-white font-bold py-3 rounded-xl shadow-md transition-all">
+                    Confirm Reservation
+                </button>
+            </form>
+
+            <!-- Booking Success Screen -->
+            <div id="booking-success" class="hidden text-center py-6 space-y-3">
+                <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-2xl">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h4 class="font-serif text-2xl font-bold text-charcoal-900">Table Reserved!</h4>
+                <p id="booking-summary-text" class="text-sm text-charcoal-800/80"></p>
+                <button onclick="closeBookingModal()" class="mt-2 px-6 py-2.5 bg-charcoal-900 text-cream-50 text-sm font-semibold rounded-xl">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== INTERACTIVE SLIDE-OVER: ORDER TRAY DRAWER ==================== -->
+    <div id="cart-drawer-backdrop" onclick="toggleCartDrawer()" class="hidden fixed inset-0 z-50 bg-charcoal-950/60 backdrop-blur-xs"></div>
+    <aside id="cart-drawer" class="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-white shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <!-- Drawer Header -->
+        <div class="p-6 bg-charcoal-950 text-cream-50 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-bag-shopping text-saffron-400 text-xl"></i>
+                <div>
+                    <h3 class="font-serif text-xl font-bold">Your Dining Tray</h3>
+                    <p class="text-xs text-cream-200/70">Table Order / Takeaway Simulation</p>
+                </div>
+            </div>
+            <button onclick="toggleCartDrawer()" aria-label="Close Tray" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Drawer Items List -->
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+            <!-- Populated dynamically via JS -->
+        </div>
+
+        <!-- Drawer Footer: Promo + Subtotal + Checkout -->
+        <div class="p-6 bg-cream-50 border-t border-cream-200 space-y-4">
+            <!-- Promo Code Input -->
+            <div class="flex gap-2">
+                <input type="text" id="cart-promo-input" placeholder="Promo code (e.g. ROYAL20)" class="flex-1 px-3.5 py-2 rounded-xl bg-white border border-cream-200 text-xs uppercase focus:outline-none focus:border-saffron-500">
+                <button onclick="applyCartPromo()" class="px-4 py-2 rounded-xl bg-charcoal-900 text-cream-50 text-xs font-bold hover:bg-terracotta-600 transition-colors">Apply</button>
+            </div>
+            <p id="cart-promo-msg" class="hidden text-xs font-medium"></p>
+
+            <div class="space-y-1.5 text-sm">
+                <div class="flex justify-between text-charcoal-800/75">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal">₹0</span>
+                </div>
+                <div id="cart-discount-row" class="hidden flex justify-between text-emerald-600 font-medium">
+                    <span>Promo Discount</span>
+                    <span id="cart-discount">-₹0</span>
+                </div>
+                <div class="flex justify-between text-charcoal-800/75">
+                    <span>GST (5%)</span>
+                    <span id="cart-tax">₹0</span>
+                </div>
+                <div class="flex justify-between font-bold text-lg text-charcoal-900 pt-2 border-t border-cream-200">
+                    <span>Total Payable</span>
+                    <span id="cart-total">₹0</span>
+                </div>
+            </div>
+
+            <button id="place-order-btn" onclick="placeSimulatedOrder()" disabled class="w-full bg-gradient-to-r from-saffron-500 to-terracotta-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl shadow-md transition-all">
+                Place Order
+            </button>
+        </div>
+    </aside>
+
+    <!-- Toast Notification Banner -->
+    <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden bg-charcoal-900 text-cream-50 px-5 py-3 rounded-xl shadow-xl border border-saffron-500/40 text-sm font-medium flex items-center gap-2.5">
+        <i class="fa-solid fa-circle-check text-saffron-400"></i>
+        <span id="toast-message">Action completed</span>
+    </div>
+
+    <!-- ==================== VANILLA JAVASCRIPT LOGIC ==================== -->
+    <script>
+        // 1. MENU DATASET (Contemporary Indian Cuisine with INR ₹ Pricing)
+        const menuItems = [
+            {
+                id: 1,
+                name: "Truffle Paneer Tikka",
+                category: "Starters",
+                price: 345,
+                isVeg: true,
+                badge: "Chef's Signature",
+                desc: "Charcoal-grilled malai cottage cheese marinated in hung curd, Kashmiri chilli, and subtle white truffle oil.",
+                image: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 2,
+                name: "Old Delhi Murgh Malai Kebab",
+                category: "Starters",
+                price: 395,
+                isVeg: false,
+                badge: "Bestseller",
+                desc: "Succulent chicken morsels infused with green cardamom, cream cheese, and roasted garlic, finished in the tandoor.",
+                image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 3,
+                name: "Dahi Ke Kebab with Tamarind Glaze",
+                category: "Starters",
+                price: 295,
+                isVeg: true,
+                badge: "",
+                desc: "Crisp golden hung-curd patties spiced with ginger and green chillies, served over tangy date-tamarind chutney.",
+                image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 4,
+                name: "Saffron Hyderabadi Dum Biryani",
+                category: "Main Course",
+                price: 465,
+                isVeg: false,
+                badge: "House Legend",
+                desc: "Aged basmati rice slow-sealed with tender spiced chicken, caramelized onions, mint, and pure Kashmiri saffron.",
+                image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 5,
+                name: "Dal Bukhara & Garlic Naan",
+                category: "Main Course",
+                price: 385,
+                isVeg: true,
+                badge: "24-Hr Simmered",
+                desc: "Whole black urad lentils simmered overnight over charcoal embers with tomatoes and white butter, paired with garlic naan.",
+                image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 6,
+                name: "Smoked Butter Chicken Masala",
+                category: "Main Course",
+                price: 445,
+                isVeg: false,
+                badge: "Popular",
+                desc: "Tandoor-roasted chicken tikka folded into a velvety San Marzano tomato, cashew, and kasuri methi gravy.",
+                image: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 7,
+                name: "Saffron Rasmalai Tres Leches",
+                category: "Desserts",
+                price: 245,
+                isVeg: true,
+                badge: "Fusion Hit",
+                desc: "Soft cottage cheese dumplings soaked in cardamom-saffron milk layered over sponge cake with roasted pistachios.",
+                image: "https://images.unsplash.com/photo-1666190092159-3171cf0fbb12?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 8,
+                name: "Warm Gulab Jamun Cheesecake",
+                category: "Desserts",
+                price: 265,
+                isVeg: true,
+                badge: "",
+                desc: "Velvety baked vanilla cheesecake crowned with rose-scented khoya gulab jamun and edible silver leaf.",
+                image: "https://images.unsplash.com/photo-1589119908995-c6837fa14848?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 9,
+                name: "Alphonso Mango & Saffron Lassi",
+                category: "Beverages",
+                price: 175,
+                isVeg: true,
+                badge: "Refreshing",
+                desc: "Churned artisanal yogurt blended with Ratnagiri Alphonso mango pulp, saffron strands, and crushed green cardamom.",
+                image: "https://images.unsplash.com/photo-1527661591475-527312dd65f5?auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        // 2. INITIAL CUSTOMER REVIEWS
+        let reviews = [
+            {
+                name: "Rohan Kulkarni",
+                rating: 5,
+                date: "2 days ago",
+                comment: "The Dal Bukhara and Truffle Paneer Tikka were extraordinary! Warm lighting, attentive staff, and authentic flavors without feeling overly heavy."
+            },
+            {
+                name: "Meera Nair",
+                rating: 5,
+                date: "1 week ago",
+                comment: "Used the student combo code for a birthday lunch with friends. The Saffron Hyderabadi Dum Biryani aroma filled the whole table. Will definitely return!"
+            },
+            {
+                name: "Vikramaditya Rao",
+                rating: 4,
+                date: "2 weeks ago",
+                comment: "Loved the Saffron Rasmalai Tres Leches—such a clever modern twist on an Indian classic. Recommend reserving a courtyard table for dinner."
+            }
+        ];
+
+        // Application State
+        let activeCategory = "All";
+        let cart = []; // { id, name, price, isVeg, qty }
+        let appliedPromo = null;
+
+        // ==================== MENU RENDERING & FILTERING ====================
+        function filterMenu(category) {
+            activeCategory = category;
+            document.querySelectorAll(".menu-tab").forEach(btn => {
+                if (btn.dataset.category === category) {
+                    btn.classList.add("bg-charcoal-900", "text-cream-50");
+                    btn.classList.remove("text-charcoal-800", "hover:bg-cream-100");
+                } else {
+                    btn.classList.remove("bg-charcoal-900", "text-cream-50");
+                    btn.classList.add("text-charcoal-800", "hover:bg-cream-100");
+                }
+            });
+            applyMenuFilters();
+        }
+
+        function applyMenuFilters() {
+            const searchQuery = document.getElementById("menu-search").value.toLowerCase().trim();
+            const vegOnly = document.getElementById("veg-only-toggle").checked;
+
+            const filtered = menuItems.filter(item => {
+                const matchesCat = activeCategory === "All" || item.category === activeCategory;
+                const matchesVeg = !vegOnly || item.isVeg;
+                const matchesSearch = item.name.toLowerCase().includes(searchQuery) || 
+                                      item.desc.toLowerCase().includes(searchQuery) ||
+                                      item.category.toLowerCase().includes(searchQuery);
+                return matchesCat && matchesVeg && matchesSearch;
+            });
+
+            renderMenuGrid(filtered);
+        }
+
+        function resetMenuFilters() {
+            document.getElementById("menu-search").value = "";
+            document.getElementById("veg-only-toggle").checked = false;
+            filterMenu("All");
+        }
+
+        function renderMenuGrid(items) {
+            const grid = document.getElementById("menu-grid");
+            const emptyState = document.getElementById("menu-empty");
+
+            if (items.length === 0) {
+                grid.innerHTML = "";
+                emptyState.classList.remove("hidden");
+                return;
+            }
+
+            emptyState.classList.add("hidden");
+            grid.innerHTML = items.map(item => `
+                <article class="bg-white rounded-2xl overflow-hidden border border-cream-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group fade-in">
+                    <div class="relative h-52 overflow-hidden bg-cream-200">
+                        <img 
+                            src="${item.image}" 
+                            onerror="this.src='https://placehold.co/600x400/EFE5D1/9A3412?text=${encodeURIComponent(item.name)}'"
+                            alt="${item.name}" 
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        >
+                        <div class="absolute top-3 left-3 flex items-center gap-2">
+                            <!-- Indian FSSAI Style Veg / Non-Veg Symbol -->
+                            <span title="${item.isVeg ? 'Vegetarian' : 'Non-Vegetarian'}" class="w-6 h-6 bg-white/95 backdrop-blur-xs rounded-md flex items-center justify-center shadow">
+                                <span class="w-4 h-4 border-2 ${item.isVeg ? 'border-green-600' : 'border-red-600'} flex items-center justify-center rounded-[2px]">
+                                    <span class="w-2 h-2 rounded-full ${item.isVeg ? 'bg-green-600' : 'bg-red-600'}"></span>
+                                </span>
+                            </span>
+                            ${item.badge ? `<span class="px-2.5 py-1 rounded-md bg-charcoal-950/85 text-saffron-400 text-[11px] font-bold tracking-wide">${item.badge}</span>` : ''}
+                        </div>
+                        <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-white/95 text-charcoal-900 text-xs font-semibold shadow">
+                            ${item.category}
+                        </span>
+                    </div>
+
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-start justify-between gap-2">
+                                <h3 class="font-serif text-xl font-bold text-charcoal-900 leading-snug">${item.name}</h3>
+                                <span class="font-bold text-lg text-terracotta-600 shrink-0">₹${item.price}</span>
+                            </div>
+                            <p class="text-sm text-charcoal-800/75 mt-2 leading-relaxed">${item.desc}</p>
+                        </div>
+
+                        <div class="mt-5 pt-4 border-t border-cream-100 flex items-center justify-between">
+                            <span class="text-xs text-charcoal-800/55">${item.isVeg ? '100% Vegetarian' : 'Chef Special Non-Veg'}</span>
+                            <button onclick="addToCart(${item.id})" class="inline-flex items-center gap-2 bg-cream-100 hover:bg-saffron-500 text-charcoal-900 hover:text-charcoal-950 font-semibold text-xs px-4 py-2.5 rounded-xl transition-colors active:scale-95">
+                                <i class="fa-solid fa-plus"></i>
+                                <span>Add to Order</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        // ==================== ORDER CART / TRAY LOGIC ====================
+        function addToCart(itemId) {
+            const dish = menuItems.find(m => m.id === itemId);
+            if (!dish) return;
+
+            const existing = cart.find(c => c.id === itemId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ id: dish.id, name: dish.name, price: dish.price, isVeg: dish.isVeg, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`Added "${dish.name}" to your tray`);
+        }
+
+        function changeCartQty(itemId, delta) {
+            const idx = cart.findIndex(c => c.id === itemId);
+            if (idx === -1) return;
+
+            cart[idx].qty += delta;
+            if (cart[idx].qty <= 0) {
+                cart.splice(idx, 1);
+            }
+            updateCartUI();
+        }
+
+        function applyCartPromo() {
+            const input = document.getElementById("cart-promo-input").value.trim().toUpperCase();
+            const msgEl = document.getElementById("cart-promo-msg");
+            msgEl.classList.remove("hidden", "text-emerald-600", "text-red-600");
+
+            if (input === "ROYAL20") {
+                appliedPromo = { code: "ROYAL20", type: "percent", value: 20 };
+                msgEl.textContent = "Applied ROYAL20: 20% off your order!";
+                msgEl.classList.add("text-emerald-600");
+            } else if (input === "CAMPUS150") {
+                appliedPromo = { code: "CAMPUS150", type: "flat", value: 150, min: 599 };
+                msgEl.textContent = "Applied CAMPUS150: ₹150 off on orders ₹599+";
+                msgEl.classList.add("text-emerald-600");
+            } else if (input === "SIP1PLUS1") {
+                appliedPromo = { code: "SIP1PLUS1", type: "flat", value: 175, min: 300 };
+                msgEl.textContent = "Applied SIP1PLUS1: Complimentary drink value ₹175 off!";
+                msgEl.classList.add("text-emerald-600");
+            } else {
+                appliedPromo = null;
+                msgEl.textContent = "Invalid promo code. Try ROYAL20 or CAMPUS150.";
+                msgEl.classList.add("text-red-600");
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById("cart-badge");
+            const container = document.getElementById("cart-items-container");
+            const placeBtn = document.getElementById("place-order-btn");
+
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            if (totalItems > 0) {
+                badge.textContent = totalItems;
+                badge.classList.remove("hidden");
+                placeBtn.disabled = false;
+            } else {
+                badge.classList.add("hidden");
+                placeBtn.disabled = true;
+            }
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 space-y-3">
+                        <div class="w-16 h-16 rounded-full bg-cream-100 text-saffron-500 flex items-center justify-center mx-auto text-2xl">
+                            <i class="fa-solid fa-utensils"></i>
+                        </div>
+                        <h4 class="font-serif text-lg font-bold text-charcoal-900">Your tray is empty</h4>
+                        <p class="text-xs text-charcoal-800/65 max-w-xs mx-auto">Explore our menu and add signature starters, curries, or desserts to simulate your order.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = cart.map(item => `
+                    <div class="flex items-center justify-between gap-3 p-3.5 rounded-xl bg-cream-50 border border-cream-200">
+                        <div class="flex items-start gap-2.5">
+                            <span class="mt-1 w-3.5 h-3.5 border-2 ${item.isVeg ? 'border-green-600' : 'border-red-600'} flex items-center justify-center rounded-[2px] shrink-0">
+                                <span class="w-1.5 h-1.5 rounded-full ${item.isVeg ? 'bg-green-600' : 'bg-red-600'}"></span>
+                            </span>
+                            <div>
+                                <h4 class="font-semibold text-sm text-charcoal-900">${item.name}</h4>
+                                <span class="text-xs font-medium text-terracotta-600">₹${item.price} each</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white border border-cream-200 rounded-lg px-2 py-1">
+                            <button onclick="changeCartQty(${item.id}, -1)" class="w-6 h-6 text-xs font-bold text-charcoal-800 hover:text-terracotta-600">-</button>
+                            <span class="text-xs font-bold w-4 text-center">${item.qty}</span>
+                            <button onclick="changeCartQty(${item.id}, 1)" class="w-6 h-6 text-xs font-bold text-charcoal-800 hover:text-terracotta-600">+</button>
+                        </div>
+                    </div>
+                `).join("");
+            }
+
+            // Calculate Totals
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let discount = 0;
+
+            if (appliedPromo && subtotal > 0) {
+                if (appliedPromo.type === "percent") {
+                    discount = Math.round(subtotal * (appliedPromo.value / 100));
+                } else if (appliedPromo.type === "flat" && subtotal >= (appliedPromo.min || 0)) {
+                    discount = appliedPromo.value;
+                }
+            }
+
+            const discountedSubtotal = Math.max(0, subtotal - discount);
+            const gst = Math.round(discountedSubtotal * 0.05);
+            const grandTotal = discountedSubtotal + gst;
+
+            document.getElementById("cart-subtotal").textContent = `₹${subtotal}`;
+            const discountRow = document.getElementById("cart-discount-row");
+            if (discount > 0) {
+                discountRow.classList.remove("hidden");
+                document.getElementById("cart-discount").textContent = `-₹${discount}`;
+            } else {
+                discountRow.classList.add("hidden");
+            }
+            document.getElementById("cart-tax").textContent = `₹${gst}`;
+            document.getElementById("cart-total").textContent = `₹${grandTotal}`;
+        }
+
+        function toggleCartDrawer() {
+            const drawer = document.getElementById("cart-drawer");
+            const backdrop = document.getElementById("cart-drawer-backdrop");
+            const isClosed = drawer.classList.contains("translate-x-full");
+
+            if (isClosed) {
+                drawer.classList.remove("translate-x-full");
+                backdrop.classList.remove("hidden");
+            } else {
+                drawer.classList.add("translate-x-full");
+                backdrop.classList.add("hidden");
+            }
+        }
+
+        function placeSimulatedOrder() {
+            if (cart.length === 0) return;
+            const orderId = "SS-" + Math.floor(1000 + Math.random() * 9000);
+            cart = [];
+            appliedPromo = null;
+            document.getElementById("cart-promo-input").value = "";
+            document.getElementById("cart-promo-msg").classList.add("hidden");
+            updateCartUI();
+            toggleCartDrawer();
+            showToast(`Order #${orderId} sent to kitchen! Estimated prep: 20 mins.`);
+        }
+
+        // ==================== SPECIAL OFFERS CLIPBOARD COPY ====================
+        function copyPromoCode(code, buttonEl) {
+            // Safe clipboard helper using textarea + execCommand('copy')
+            const tempInput = document.createElement("textarea");
+            tempInput.value = code;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand("copy");
+            } catch (err) {
+                console.error("Copy fallback failed", err);
+            }
+            document.body.removeChild(tempInput);
+
+            // Auto-fill into cart promo box for convenience
+            document.getElementById("cart-promo-input").value = code;
+
+            const originalHTML = buttonEl.innerHTML;
+            buttonEl.innerHTML = `<i class="fa-solid fa-check"></i><span>Copied!</span>`;
+            showToast(`Promo code "${code}" copied to clipboard!`);
+
+            setTimeout(() => {
+                buttonEl.innerHTML = originalHTML;
+            }, 2000);
+        }
+
+        // ==================== CUSTOMER REVIEWS SYSTEM ====================
+        function renderReviews() {
+            const list = document.getElementById("reviews-list");
+            list.innerHTML = reviews.map(rev => {
+                const starsHTML = Array.from({ length: 5 }, (_, i) => 
+                    `<i class="fa-${i < rev.rating ? 'solid' : 'regular'} fa-star"></i>`
+                ).join("");
+
+                return `
+                    <div class="bg-white p-6 rounded-2xl border border-cream-200 shadow-sm fade-in">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-saffron-400 to-terracotta-600 text-white font-bold flex items-center justify-center text-sm">
+                                    ${rev.name.charAt(0).toUpperCase()}
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-charcoal-900 text-sm">${rev.name}</h4>
+                                    <span class="text-xs text-charcoal-800/55">${rev.date}</span>
+                                </div>
+                            </div>
+                            <div class="text-saffron-500 text-xs flex gap-0.5">${starsHTML}</div>
+                        </div>
+                        <p class="text-sm text-charcoal-800/80 leading-relaxed">"${rev.comment}"</p>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function setReviewRating(rating) {
+            document.getElementById("reviewer-rating").value = rating;
+            document.querySelectorAll("#star-selector i").forEach(star => {
+                const val = parseInt(star.dataset.star, 10);
+                if (val <= rating) {
+                    star.classList.remove("fa-regular");
+                    star.classList.add("fa-solid");
+                } else {
+                    star.classList.remove("fa-solid");
+                    star.classList.add("fa-regular");
+                }
+            });
+        }
+
+        function handleReviewSubmit(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById("reviewer-name");
+            const commentInput = document.getElementById("reviewer-comment");
+            const ratingVal = parseInt(document.getElementById("reviewer-rating").value, 10);
+
+            reviews.unshift({
+                name: nameInput.value.trim(),
+                rating: ratingVal,
+                date: "Just now",
+                comment: commentInput.value.trim()
+            });
+
+            renderReviews();
+            document.getElementById("total-reviews-count").textContent = `${1245 + reviews.length} reviews`;
+            nameInput.value = "";
+            commentInput.value = "";
+            setReviewRating(5);
+            showToast("Thank you! Your review is now live.");
+        }
+
+        // ==================== TABLE RESERVATION MODAL ====================
+        function openBookingModal() {
+            const modal = document.getElementById("booking-modal");
+            const form = document.getElementById("booking-form");
+            const success = document.getElementById("booking-success");
+
+            // Default date to today
+            const today = new Date().toISOString().split("T")[0];
+            document.getElementById("book-date").min = today;
+            if (!document.getElementById("book-date").value) {
+                document.getElementById("book-date").value = today;
+            }
+
+            form.classList.remove("hidden");
+            success.classList.add("hidden");
+            modal.classList.remove("hidden");
+        }
+
+        function closeBookingModal() {
+            document.getElementById("booking-modal").classList.add("hidden");
+        }
+
+        function handleBookingSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById("book-name").value.trim();
+            const date = document.getElementById("book-date").value;
+            const time = document.getElementById("book-time").value;
+            const guests = document.getElementById("book-guests").value;
+            const seating = document.getElementById("book-seating").value;
+
+            document.getElementById("booking-summary-text").textContent = 
+                `We look forward to hosting ${name} (${guests}) in our ${seating} on ${date} at ${time}.`;
+
+            document.getElementById("booking-form").classList.add("hidden");
+            document.getElementById("booking-success").classList.remove("hidden");
+            showToast("Table reservation confirmed!");
+        }
+
+        // ==================== CONTACT FORM & NAVIGATION HELPERS ====================
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            const feedback = document.getElementById("contact-feedback");
+            feedback.classList.remove("hidden");
+            event.target.reset();
+            setTimeout(() => {
+                feedback.classList.add("hidden");
+            }, 5000);
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById("mobile-menu").classList.toggle("hidden");
+        }
+
+        let toastTimer;
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            document.getElementById("toast-message").textContent = message;
+            toast.classList.remove("hidden");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.add("hidden");
+            }, 3000);
+        }
+
+        // Initialize Page on Load
+        window.addEventListener("DOMContentLoaded", () => {
+            renderMenuGrid(menuItems);
+            renderReviews();
+            updateCartUI();
+        });
+    </script>
+</body>
+</html>
